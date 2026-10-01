@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Primordia</title>
+  <meta name="description" content="An evolution sandbox in the browser: creatures with neural-network brains and costly genes compete for food, speciate and adapt. Live species charts, a creature inspector with brain view, deterministic seeds, events and save files.">
+  <meta name="theme-color" content="#0d1319">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true"></span><h1 data-i18n="app.title">Primordia</h1></div>
+    <p class="tagline" data-i18n="app.tagline"></p>
+    <label class="field"><span data-i18n="ctl.lang">Language</span><select id="set-lang"><option value="en">English</option><option value="tr">Türkçe</option></select></label>
+  </header>
+
+  <div class="bar" id="controls">
+    <button class="tb primary" id="btn-play"></button>
+    <button class="tb" id="btn-step" data-i18n="ctl.step">Step</button>
+    <label class="field row"><span data-i18n="ctl.speed">Speed</span><select id="speed"><option>1</option><option>2</option><option selected>5</option><option>10</option><option>25</option><option>50</option></select></label>
+    <span class="sep"></span>
+    <label class="field row"><span data-i18n="ctl.seed">Seed</span><input id="seed" type="text" inputmode="numeric" size="8"></label>
+    <label class="field row"><span data-i18n="ctl.preset">World</span><select id="preset"></select></label>
+    <button class="tb" id="btn-new" data-i18n="ctl.new">New world</button>
+    <span class="sep"></span>
+    <span class="label" data-i18n="ctl.events">Events</span>
+    <button class="tb ev" data-ev="meteor" data-i18n="ev.meteor">Meteor</button>
+    <button class="tb ev" data-ev="bloom" data-i18n="ev.bloom">Food bloom</button>
+    <button class="tb ev" data-ev="iceage" data-i18n="ev.iceage">Ice age</button>
+    <span class="sep"></span>
+    <button class="tb" id="btn-save" data-i18n="ctl.save">Save</button>
+    <button class="tb" id="btn-load" data-i18n="ctl.load">Load</button>
+    <button class="tb" id="btn-share" data-i18n="ctl.share">Copy link</button>
+    <input type="file" id="file-load" accept="application/json,.json" hidden>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <main class="work">
+    <section class="world-wrap">
+      <canvas id="world" aria-label="World"></canvas>
+      <div class="extinct" id="extinct" hidden><h2 data-i18n="ext.title"></h2><p id="ext-body"></p><button class="tb primary" id="btn-ext-new" data-i18n="ctl.new">New world</button></div>
+    </section>
+    <aside class="side">
+      <section class="panel" id="inspector"></section>
+      <section class="panel" id="records"></section>
+    </aside>
+  </main>
+
+  <section class="charts" id="charts"></section>
+  <div class="tip" id="tip" hidden></div>
+  <footer class="foot"><span data-i18n="foot.text"></span> <a href="https://github.com/ardakalper/primordia" data-i18n="foot.source">Source on GitHub</a></footer>
+  <div class="toast" id="toast" hidden role="status"></div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

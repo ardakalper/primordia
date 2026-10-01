@@ -1,0 +1,24 @@
+// README screenshots: runs seed 7 forward, selects a hunter, captures the world and the charts.
+import { chromium } from '@playwright/test';
+import { mkdirSync } from 'node:fs';
+const exe = process.env.PW_CHROMIUM_PATH;
+const OUT = process.env.OUT || 'docs/img';
+mkdirSync(OUT, { recursive: true });
+const browser = await chromium.launch(exe ? { executablePath: exe } : {});
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
+await page.goto('http://localhost:4178/?nosw=1&seed=7&preset=ecosystem&paused');
+await page.evaluate(() => localStorage.clear());
+await page.waitForFunction(() => window.__primordia);
+await page.evaluate(() => window.__primordia.run(6000));
+const id = await page.evaluate(() => { const w = window.__primordia.world; return (w.creatures.filter((c) => c.genome.diet > 0.5).sort((a, b) => b.kills - a.kills)[0] ?? w.creatures[0]).id; });
+const [x, y] = await page.evaluate((id) => window.__primordia.screenOf(id), id);
+await page.mouse.click(x, y);
+await page.waitForTimeout(500);
+await page.screenshot({ path: `${OUT}/world.png` });
+await page.evaluate(() => document.querySelector('#charts').scrollIntoView());
+const box = await page.locator('.chart.wide canvas').boundingBox();
+await page.mouse.move(box.x + box.width * 0.62, box.y + box.height * 0.5);
+await page.waitForTimeout(400);
+await page.screenshot({ path: `${OUT}/charts.png` });
+console.log('wrote world, charts');
+await browser.close();
